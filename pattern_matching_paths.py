@@ -1,30 +1,20 @@
 from sys import argv, exit, stdin
-import select
 import matching_helper
 
 
 def process_input():
     input = [line.rstrip() for line in stdin]
+    
+    # check if input file has any data and exit if it is empty
     if len(input) <= 1:
-        print("NO DATA")
+        print("NO MATCH")
         exit(1)
-
-    # if select.select([stdin],[],[],0.0)[0]:
-    #     print("DATA")
-    # else:
-    #     print("NO DATA")
-
-    # input = []
-    # for line in stdin:
-    #     # print(i)
-    #     print(line)
-    #     # if line
     
     num_patterns = int(input[0])
     num_paths = int(input[num_patterns + 1])
 
     if num_patterns == 0 or num_paths == 0:
-        print("NO MATCHES")
+        print("NO MATCH")
         exit(1)
 
     patterns = input[1:num_patterns+1]
@@ -37,7 +27,7 @@ def main():
     
     # check if an input file is piped into terminal command
     if stdin.isatty():
-        print("NO INPUT")
+        print("NO MATCH")
         exit(1)
 
     patterns, paths = process_input()
