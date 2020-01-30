@@ -1,7 +1,7 @@
 import unittest
 from matching_helper import get_matching_patterns
 
-
+# run tests by running <python test_pattern_matching_paths.py> in the terminal
 class TestPatternMatchingPaths(unittest.TestCase):
 
     def test_base_case(self):

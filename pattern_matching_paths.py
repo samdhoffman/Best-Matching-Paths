@@ -1,8 +1,9 @@
 from sys import argv, exit, stdin
-import matching_helper
+from matching_helper import get_matching_patterns
 
-
+# this method parses stdin to lists of strings for both patterns and paths
 def process_input():
+    # will remove all the newlines for each line of input
     input = [line.rstrip() for line in stdin]
     
     # check if input file has any data and exit if it is empty
@@ -24,15 +25,14 @@ def process_input():
 
 
 def main():
-    
-    # check if an input file is piped into terminal command
+    # check if an input file is piped into terminal command and exit if not
     if stdin.isatty():
         print("NO MATCH")
         exit(1)
 
     patterns, paths = process_input()
 
-    matching_patterns = matching_helper.get_matching_patterns(patterns, paths)
+    matching_patterns = get_matching_patterns(patterns, paths)
 
     for m in matching_patterns:
         print(m)

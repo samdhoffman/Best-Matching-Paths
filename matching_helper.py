@@ -9,7 +9,9 @@ def add_matches(results, cur_matches):
         results.append(best_match)
         
     return results
-    
+
+# this method gets called recursively to find best match when multiple patterns 
+# have thier leftmost "*" at the same position
 def get_best_match(matches, start_index, target):
     if len(matches) == 1:
         return matches[0]
@@ -28,31 +30,40 @@ def get_best_match(matches, start_index, target):
                 result[left] = [cur_matches[i]]
         
     if len(result[left]) > 1:
+        # recursive call
         return get_best_match(result[left], start_index + 1, "*")
     else:
         return result[left][0]
 
+# this method is where most of the matching work occurs
+# algorithmic complexity is On^2
 def get_matching_patterns(patterns, paths):
+    if not patterns or not paths:
+      return ["NO MATCH"]
+
     results = []
     delimiter = ','
     
     for p in paths:
-        # remove leading and trailing /
-        if p[0] == '/' or p[-1] == '/':
-            p = p.strip('/')
+        # remove leading and trailing "/"
+        if p[0] == "/" or p[-1] == "/":
+            p = p.strip("/")
             
-        pathArr = p.split('/')
+        pathArr = p.split("/")
         
-        matches = {} # using a dict for O(1) lookup and insertion time
+        matches = {} # i am using a dict to take advantage of O(1) lookup and insertion time
         
         for pattern in patterns:
-            patternArr = pattern.split(',')
+            patternArr = pattern.split(",")
             
             if len(patternArr) == len(pathArr):
                 cur_pos = 0
                 cur_match = []
                 
-                wildcard_count = 0 # will use wildcard count as key in matches dict
+                # will use wildcard_count as key in matches dict
+                # this way it will be easy to consolidate the patterns 
+                # that have the fewest wildcards if any
+                wildcard_count = 0 
                 
                 while cur_pos < len(patternArr):
                     if patternArr[cur_pos] == "*":
